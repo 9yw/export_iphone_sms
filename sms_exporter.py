@@ -4,12 +4,12 @@ from xml.dom import minidom
 def export_sms_to_xml(sms_data, output_xml):
     root = ET.Element("smses")
     for sms in sms_data:
+        print("SMS", sms['ROWID'], sms["sender"], sms['f_date'], sms['text'])
         sms_element = ET.SubElement(root, "sms")
         sms_element.set("address", sms["sender"])
         sms_element.set("date", str(sms["u_date"]))
         sms_element.set("rowid", str(sms["ROWID"]))
         sms_element.set("type", sms["type"])
-        print("SMS", sms['ROWID'], sms["sender"], sms['f_date'], sms['text'])
         sms_element.set("body", sms["text"] if sms["text"] else "")
         sms_element.set("read", "1")
         sms_element.set("status", "-1")
@@ -22,7 +22,7 @@ def export_sms_to_xml(sms_data, output_xml):
 def export_mms_to_xml(mms_data, output_mms_xml):
     root = ET.Element("smses")
     for sms in mms_data:
-        print("MMS", sms['ROWID'], sms["sender"])
+        print("MMS", sms['ROWID'], sms["sender"], sms['f_date'], sms['transfer_name'] + " -> " + sms["ori_filename"])
         mms_element = ET.SubElement(root, "mms")
         mms_element.set("retr_st", 'null')
         mms_element.set("date", str(sms["u_date"]))
